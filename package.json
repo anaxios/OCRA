@@ -1,0 +1,16 @@
+{
+  "name": "icstojson",
+  "version": "0.0.1",
+  "description": "convert ics calendar to JSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ics-to-json": "^1.0.0",
+    "node-fetch": "^2.6.1"
+  }
+}
