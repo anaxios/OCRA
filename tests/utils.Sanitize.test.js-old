@@ -1,0 +1,26 @@
+/* Process.env.NODE_ENV = 'test';
+// Const { expect } = require('chai');
+// const chai = require('chai');
+// Const chaiHttp = require('chai-http');
+// chai.use();
+
+const Sanitize = require('../utils/Sanitize');
+const sanitize = new Sanitize();
+const testInput = 'Saints, Feasts, and Readings for 08/04/2022\\n\\nSaints and Feasts--- Seven Holy Youths of Ephesus\\n\\nStrict Fast\\n\\nEpistle Reading--- I Corinthians 10---28-33;11---1-8\\nBrethren, if someone says to you, \\"This has been offered in sacrifice,\\" then out of consideration for the man who informed you, and for conscience\'s sake - I mean his conscience, not yours - do not eat it.';
+const testOutput = 'Saints, Feasts, and Readings for 08/04/2022\\n\\nSaints and Feasts\: Seven Holy Youths of Ephesus\\n\\nStrict Fast\\n\\nEpistle Reading\: I Corinthians 10\:28-33;11\:1-8\\nBrethren, if someone says to you, \\"This has been offered in sacrifice,\\" then out of consideration for the man who informed you, and for conscience\'s sake - I mean his conscience, not yours - do not eat it.';
+
+describe('Sanitize the data of strangeness', () => {
+	test('gets an input then gives it back', () => {
+		expect(sanitize.run('text')).toBe('text');
+	});
+	test('gets an input with double backslashes then gives it back with only one', () => {
+		expect(sanitize.run('te\\\\xt')).toBe('te\\xt');
+	});
+	test('gets an input with many backslashes then gives it back with only one', () => {
+		expect(sanitize.run('te\\\\\\\\\\\\xt')).toBe('te\\xt');
+	});
+	test('gets an input with three dashes --- replaces them with \:', () => {
+		expect(sanitize.run(testInput)).toBe(testOutput);
+	});
+});
+ */

@@ -1,45 +1,48 @@
+/* eslint radix: ["error", "as-needed"] */
+'use strict';
 const express = require('express');
 const fs = require('fs');
-const MyDate = require('./Date');
+const julianDate = require('./Classes/JulianDate');
+// Const Route = require('./Classes/Route');
 
 const app = express();
-const calendarArray = JSON.parse(fs.readFileSync('planner.json', 'utf8'));
-const newcalendarArray = calendarArray.map(e => ({
-	month: e.startDate.slice(4, 6),
-	date: e.startDate.slice(6),
-	summary: e.summary,
-	description: e.description,
-}));
 
-app.get('/', (req, res) => {
-	res.send('<h1>hello world!</h>');
-});
+const calendar_database = JSON.parse(fs.readFileSync('calendar_database.json', 'utf8'));
 
 app.get('/api/calendar', (req, res) => {
-	const today = new MyDate();
+	const today = new Date();
 	const [month, date] = [today.getMonth(), today.getDate()];
 
 	let selection;
 	if (req.query.NewCalendar === 'true') {
-		selection = newcalendarArray.filter(
+		selection = calendar_database.filter(
 			e => parseInt(e.month) === month + 1 && parseInt(e.date) === date,
 		);
 	} else {
-		const julianToday = new MyDate(today.toJulian());
-		selection = newcalendarArray.filter(
+		const julianToday = julianDate.toJulian(today); // Hacky way to get old calendar current date.
+		console.log(julianToday);
+		selection = calendar_database.filter(
 			e =>
 				parseInt(e.month) === julianToday.getMonth() + 1
         && parseInt(e.date) === julianToday.getDate(),
 		);
 	}
 
+	if (!selection || selection.length === 0) {
+		return res.status(404).send('Date not found.');
+	}
+
 	res.send(selection);
 });
 
 app.get('/api/calendar/:month/:date', (req, res) => {
-	const selection = newcalendarArray.filter(
+	const selection = calendar_database.filter(
 		e => e.month === req.params.month && e.date === req.params.date,
 	);
+
+	if (!selection || selection.length === 0) {
+		return res.status(404).send('Date not found.');
+	}
 
 	res.send(selection);
 });
