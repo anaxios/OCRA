@@ -7,7 +7,7 @@ const julianDate = require('./Classes/JulianDate');
 
 const app = express();
 
-const calendar_database = JSON.parse(fs.readFileSync('calendar_database.json', 'utf8'));
+const calendarDatabase = JSON.parse(fs.readFileSync('calendar_database.json', 'utf8'));
 
 app.get('/api/calendar', (req, res) => {
 	const today = new Date();
@@ -15,13 +15,13 @@ app.get('/api/calendar', (req, res) => {
 
 	let selection;
 	if (req.query.NewCalendar === 'true') {
-		selection = calendar_database.filter(
+		selection = calendarDatabase.filter(
 			e => parseInt(e.month) === month + 1 && parseInt(e.date) === date,
 		);
 	} else {
 		const julianToday = julianDate.toJulian(today); // Hacky way to get old calendar current date.
 		console.log(julianToday);
-		selection = calendar_database.filter(
+		selection = calendarDatabase.filter(
 			e =>
 				parseInt(e.month) === julianToday.getMonth() + 1
         && parseInt(e.date) === julianToday.getDate(),
@@ -36,7 +36,7 @@ app.get('/api/calendar', (req, res) => {
 });
 
 app.get('/api/calendar/:month/:date', (req, res) => {
-	const selection = calendar_database.filter(
+	const selection = calendarDatabase.filter(
 		e => e.month === req.params.month && e.date === req.params.date,
 	);
 

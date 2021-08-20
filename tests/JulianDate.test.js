@@ -1,9 +1,9 @@
-const julianDate = require('../Classes/JulianDate');
+const JulianDate = require('../Classes/JulianDate');
 
 process.env.NODE_ENV = 'test';
 
 const today = new Date();
-const converted = julianDate.toJulian(today);
+const converted = JulianDate.toJulian(today);
 
 describe('JulianDate', () => {
 	test('conver date object to Julian date', () => {
